@@ -7,19 +7,24 @@ game = {
   fps: 8,
   over: false,
   message: null,
+  startTime: new Date(),
+  currentTime: new Date(),
   
   start: function() {
     game.over = false;
     game.message = null;
     game.score = 0;
     game.fps = 8;
+    startTime = new Date();
+    currentTime = new Date();
+    game.duration = 30;
     snake.init();
     food.set();
   },
   
   stop: function() {
     game.over = true;
-    game.message = 'GAME OVER - PRESS SPACEBAR';
+    game.message = 'SCORE: '+game.score;
   },
   
   drawBox: function(x, y, size, color) {
@@ -34,10 +39,14 @@ game = {
   },
   
   drawScore: function() {
-    context.fillStyle = '#999';
-    context.font = (canvas.height) + 'px Impact, sans-serif';
-    context.textAlign = 'center';
-    context.fillText(game.score, canvas.width/2, canvas.height  * .9);
+    context.fillStyle = '#fff';
+    context.font = (canvas.height/20) + 'px Arial, sans-serif';
+    context.textAlign = 'left';
+    game.currentTime = new Date();
+    milli = game.currentTime.getTime() - game.startTime.getTime();
+    seconds = parseInt(milli/1000);
+    var message = "Score: "+game.score+", Time: "+seconds+'s';
+    context.fillText(message, canvas.width/20, canvas.height  * .1);
   },
   
   drawMessage: function() {
@@ -109,6 +118,7 @@ snake = {
   checkCollision: function() {
     if (snake.isCollision(snake.x, snake.y) === true) {
       game.stop();
+
     }
   },
   
@@ -124,7 +134,7 @@ snake = {
   
   checkGrowth: function() {
     if (snake.x == food.x && snake.y == food.y) {
-      game.score++;
+      game.score += game.fps;
       if (game.score % 5 == 0 && game.fps < 60) {
         game.fps++;
       }
@@ -183,6 +193,9 @@ addEventListener("keydown", function (e) {
     lastKey = keys.getKey(e.keyCode);
     if (['up', 'down', 'left', 'right'].indexOf(lastKey) >= 0
         && lastKey != inverseDirection[snake.direction]) {
+      if(snake.direction == lastKey){
+        game.fps+=5;
+      }
       snake.direction = lastKey;
     } else if (['start_game'].indexOf(lastKey) >= 0 && game.over) {
       game.start();
