@@ -10,6 +10,8 @@ It's just HTML, CSS, and javascript.  Open it in a modern browser and have fun.
 
 Too lazy to download?  [Play it on jsfiddle (may be older version of game)](http://jsfiddle.net/zT7V4/1/).
 
+Updated one (By James): http://jsfiddle.net/2NUPv/2/
+
 ## Inspiration
 
 [lightcycles](https://github.com/JDStraughan/html5-lightcycles) was a blast to write, and it really made me think about how to make my snake move (hehe).  I decided on making and array, and just shift()ing and push()ing segments.  This is what I ended up with.
